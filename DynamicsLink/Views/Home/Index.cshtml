@@ -1,0 +1,108 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<section class="row">
+    <div class="col-12">
+        <form>
+            <table>
+                <tr>
+                    <th><label>Invoice No</label></th>
+                    <td><label>@Model.InvoiceNum</label></td>
+                </tr>
+                <tr>
+                    <th><label>Invoice Date</label></th>
+                    <td><label>@Model.InvoiceDate</label></td>
+                </tr>
+            </table>
+
+            <br />
+            <label>Store</label>
+            <select id="stores" onchange="onStoreChange()">
+                @foreach (var store in Model.Stores)
+                {
+                    <option value="@store.Id">@store.Name</option>
+                }
+            </select>
+            <div id="TableDiv">
+                <table id="InvoiceTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Unit</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Discount</th>
+                            <th>Net</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr id="rows">
+                            <td>
+                                <select id="ItemList_" onclick="LoadItems()" onchange="LoadUnit(this)">
+                                    <option value="none" selected disabled hidden>
+                                        Select an Item
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="UnitList_" onchange="SetUnitValues(this)">
+                                    <option value="none" selected disabled hidden>
+                                        Select a Unit
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <label id="UnitPrice_">--</label>
+                            </td>
+                            <td>
+                                <input id="UnitQty_" onchange="changeQty(this)" type="number" min="0" value="0" />
+                            </td>
+                            <td>
+                                <label id="TotalPrice_">0</label>
+                            </td>
+                            <td>
+                                <label id="UnitDiscount_">0</label>
+                            </td>
+                            <td>
+                                <label id="Net_">0</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-info mb-1" onclick="AddRow()">
+                    Add
+                </button>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Total</th>
+                        <td><label id="Total">-</label></td>
+                    </tr>
+                    <tr>
+                        <th>Taxes</th>
+                        <td><label id="Taxes">-</label></td>
+                    </tr>
+                    <tr>
+                        <th>NET</th>
+                        <td><label id="Net">-</label></td>
+                    </tr>
+                </table>
+
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="reset" class="btn btn-danger">Delete</button>
+        </form>
+
+    </div>
+
+</section>
+
+
+@section Scripts{
+    <script src="~/js/signalr.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}
